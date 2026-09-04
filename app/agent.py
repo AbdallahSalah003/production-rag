@@ -61,12 +61,14 @@ class ProductionAgent:
                 return {
                     "messages": [response],
                     "error": None,
+                    "retry_count": state["retry_count"],
                     "model_used": "primary",
                 }
             except Exception as e:
                 return {
+                    "messages": [],
                     "error": str(e),
-                    "retry_count": state["retry_count"]+1,
+                    "retry_count": state["retry_count"] + 1,
                     "model_used": "",
                 }
 
@@ -77,11 +79,14 @@ class ProductionAgent:
                 return {
                     "messages": [response],
                     "error": None,
+                    "retry_count": state["retry_count"],
                     "model_used": "fallback",
                 }
             except Exception as e:
                 return {
+                    "messages": [],
                     "error": str(e),
+                    "retry_count": state["retry_count"],
                     "model_used": "",
                 }
 
@@ -94,7 +99,9 @@ class ProductionAgent:
                         "right now. Please try again in a moment."
                     ))
                 ],
-                "model_used": "error_handler"
+                "error": state.get("error"),
+                "retry_count": state["retry_count"],
+                "model_used": "error_handler",
             }
 
         def route_after_process(state: AgentState) -> str:
