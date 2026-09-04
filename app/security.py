@@ -222,14 +222,5 @@ class SecurePipeline:
             )
             return result
 
-        # Step 4: Process with LLM
-        response = self.llm.invoke(sanitized)
-        output = response.content
-
-        # Step 5: Output validation
-        is_valid, cleaned_output, val_reason = self.validator.validate(output)
-        if not is_valid:
-            result["security_notes"].append(f"Output cleaned: {val_reason}")
-
-        result["output"] = cleaned_output
+        result["output"] = sanitized
         return result
