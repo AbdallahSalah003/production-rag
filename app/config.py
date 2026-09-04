@@ -9,7 +9,8 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
 
-    sovereigneg_api_key: str  
+    sovereigneg_api_key: str
+    sovereigneg_base_url: str = "https://backend.sovereigneg.com/v1"  
     primary_model: str = "gpt-oss-120b"
     fallback_model: str = "gpt-4.1-nano" 
 
